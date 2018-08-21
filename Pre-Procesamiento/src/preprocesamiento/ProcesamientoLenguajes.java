@@ -17,16 +17,16 @@ public class ProcesamientoLenguajes{
     
     
     public static void main(String[] args) throws IOException {
-        String csv[]={"activas.csv","android.csv","c#.csv","destacadas.csv","htlm.csv"
+        String csv[]={"activas.csv","android.csv","c#.csv","destacadas.csv","html.csv"
         ,"java.csv","javascript.csv","jquery.csv","mes.csv","php.csv","popular.csv","python.csv"
         ,"semana.csv"};
         
         for(String archivo: csv){
             ArrayList lec=Archivo.muestraContenido(archivo);
-            System.out.println(archivo.split(".").toString());
-            String nombre=archivo.split(".")[0];
             
+            String nombre=archivo.split(".csv")[0];
             System.out.println(nombre);
+            
             ArrayList<Entrada> tags=Archivo.separartag(lec, nombre);
             Procesar p=new Procesar();
             p.procesarporrespuestas(tags,nombre);

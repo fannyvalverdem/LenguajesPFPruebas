@@ -23,6 +23,7 @@ public class Archivo {
                 lectura.add(cadena);
             }
         }
+        System.out.println(cadena);
         return lectura;
     }
     
