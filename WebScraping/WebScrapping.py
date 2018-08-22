@@ -9,8 +9,8 @@ def busquedatags(url):
     if status_code == 200:
 
         html = BeautifulSoup(req.text, "html.parser")
-
-        myData = [["Tema", "Votos", "Respuestas", "Vistas"]]
+        valores=[["Tema", "Votos", "Respuestas", "Vistas"]]
+        myData = []
 
 
         entrada2= html.find_all('div', {'id': 'tabs'})
@@ -46,13 +46,13 @@ def busquedatags(url):
             if respuestas!=None:
                 respuestastx= respuestas.getText().replace('\n',' ')
             else:
-                respuestastx="0 respuestas"
+                respuestastx=" 0 respuestas"
 
 
             vistas = entrada.find('div', {'class': 'views'}).getText().replace('\n',' ')
 
 
-            myData.append([tematx,votostx,respuestastx,vistas])
+            myData.append(tematx+"--"+votostx+"--"+respuestastx+"--"+vistas)
 
 
     else:
@@ -62,9 +62,8 @@ def busquedatags(url):
     ar=tagtx.strip(' ')
 
     myFile = open(ar.replace('\n','').replace(' ','').replace('\r','')+'.csv', 'w')
-    with myFile:
-        writer = csv.writer(myFile)
-        writer.writerows(myData)
+    for linea in myData:
+        myFile.write(linea+"\n")
 
 
 
