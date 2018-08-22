@@ -25,7 +25,7 @@ public class ProcesamientoLenguajes{
             ArrayList lec=Archivo.muestraContenido(archivo);
             
             String nombre=archivo.split(".csv")[0];
-            System.out.println(nombre);
+            //System.out.println(nombre);
             
             ArrayList<Entrada> tags=Archivo.separartag(lec, nombre);
             Procesar p=new Procesar();

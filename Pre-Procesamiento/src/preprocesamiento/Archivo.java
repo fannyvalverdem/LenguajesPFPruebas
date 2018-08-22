@@ -21,19 +21,10 @@ public class Archivo {
         try (BufferedReader b = new BufferedReader(f)) {        // Uso de FileReader y Bufferred para leer archivo
             while((cadena = b.readLine())!=null) {
                 lectura.add(cadena);
+                //System.out.println(cadena);
             }
         }
-        System.out.println(cadena);
         return lectura;
-    }
-    
-    // Método agregar contenido
-    public static void agregarContenido(String nombreArchivo,String SCadena) throws FileNotFoundException, IOException {
-        // Uso de FileReader y Bufferred para agregar información al archivo
-        try (BufferedWriter out = new BufferedWriter(new FileWriter("Procesado/"+nombreArchivo, true))) { 
-            out.write("\n"+SCadena);
-        }  
-        System.out.println("Se agrego exitosamente.");
     }
     
     // Método eliminar archivo
@@ -45,12 +36,15 @@ public class Archivo {
     }
     
     // Método modificar contenido
-    public static void modificarContenido(ArrayList nombreArrayList, String nombreArchivo)throws FileNotFoundException, IOException {
+    public static void modificarContenido(ArrayList<Entrada> nombreArrayList, String nombreArchivo)throws FileNotFoundException, IOException {
         eliminaArchivo(nombreArchivo);  // Uso de método eliminar archivo
-
-        try (FileWriter fichero = new FileWriter(nombreArchivo)) {
-            for (Object linea : nombreArrayList) {
-                fichero.write(linea + "\r\n");
+        String cadena;
+        File directorio = new File("Procesado");
+        directorio.mkdir();
+        try (FileWriter fichero = new FileWriter("Procesado/"+nombreArchivo)) {
+            for (Entrada linea : nombreArrayList) {
+                cadena=linea.getPreguntas()+"--"+linea.getRespuestas()+"--"+linea.getVotos()+"--"+linea.getVistas();
+                fichero.write(cadena + "\r\n");
             }
         }
 
@@ -58,12 +52,48 @@ public class Archivo {
     
     public static ArrayList<Entrada> separartag(ArrayList<String> lista,String tag){
         ArrayList<Entrada> lista2=new ArrayList<>();
+        int cont=0;
         for(Object linea:lista){
             String cadena=String.valueOf(linea);
-            String[] cad=cadena.split("\\|");
-            Entrada autos2=new Entrada(tag,cad[0],Integer.parseInt(cad[1]),Integer.parseInt(cad[2]),Integer.parseInt(cad[3]));
-            lista2.add(autos2);
-            
+            cont++;
+            //System.out.println(cont);
+            if(cadena.length()!=0){
+                String[] cad=cadena.split("--");
+                String preguntas=cad[0];
+                int respuestas,votos,vistas;
+                if(cad[1].split(" ")[1].endsWith("k")){
+                    respuestas=Integer.parseInt(cad[1].split(" ")[1].split("k")[0])*1000;
+                }
+                else if(cad[1].split(" ")[1].endsWith("m")){
+                    respuestas=Integer.parseInt(cad[1].split(" ")[1].split("k")[0])*1000000;
+                }
+                else{
+                    respuestas=Integer.parseInt(cad[1].split(" ")[1]);
+                }
+                
+                if(cad[2].split(" ")[1].endsWith("k")){
+                    votos=Integer.parseInt(cad[2].split(" ")[1].split("k")[0])*1000;
+                }
+                else if(cad[2].split(" ")[1].endsWith("m")){
+                    votos=Integer.parseInt(cad[2].split(" ")[1].split("k")[0])*1000000;
+                }
+                else{
+                    votos=Integer.parseInt(cad[2].split(" ")[1]);    
+                }
+                
+                if(cad[3].split(" ")[1].endsWith("k")){
+                    vistas=Integer.parseInt(cad[3].split(" ")[1].split("k")[0])*1000;
+                }
+                else if(cad[3].split(" ")[1].endsWith("m")){
+                    vistas=Integer.parseInt(cad[3].split(" ")[1].split("k")[0])*1000000;
+                }
+                else{
+                    vistas=Integer.parseInt(cad[3].split(" ")[1]);
+                }
+                
+                Entrada autos2=new Entrada(tag,preguntas,respuestas,votos,vistas);
+                lista2.add(autos2);
+                }
             }
         return lista2;
     
