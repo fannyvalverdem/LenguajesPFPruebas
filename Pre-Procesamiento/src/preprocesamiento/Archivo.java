@@ -42,6 +42,7 @@ public class Archivo {
         File directorio = new File("Procesado");
         directorio.mkdir();
         try (FileWriter fichero = new FileWriter("Procesado/"+nombreArchivo)) {
+            fichero.write("preguntas--respuestas--votos--vistas" + "\r\n");
             for (Entrada linea : nombreArrayList) {
                 cadena=linea.getPreguntas()+"--"+linea.getRespuestas()+"--"+linea.getVotos()+"--"+linea.getVistas();
                 fichero.write(cadena + "\r\n");
