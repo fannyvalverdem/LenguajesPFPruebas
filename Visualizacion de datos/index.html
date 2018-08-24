@@ -2,42 +2,34 @@
 <html>
 <head>
 	<title></title>
-
+	<script type="text/javascript" src="jquery-1.12.0.min.js"></script>
+	<script type="text/javascript" src="dist/Chart.bundle.min.js"></script>
 	<p id="demo">JavaScript can change HTML content.</p>
 
-	<button type="button" onclick='document.getElementById("demo").src = '>Android</button>
-	<button type="button" onclick='document.getElementById("demo").innerHTML = "Hello JavaScript!"'>Activas</button>
-	<button type="button" onclick='document.getElementById("demo").innerHTML = "Hello JavaScript!"'>c#</button>
-	<button type="button" onclick='document.getElementById("demo").innerHTML = "Hello JavaScript!"'>Destacadas</button>
-	<button type="button" onclick='document.getElementById("demo").innerHTML = "Hello JavaScript!"'>Html</button>
-	<button type="button" onclick='document.getElementById("demo").innerHTML = "Hello JavaScript!"'>Java</button>
-	<button type="button" onclick='document.getElementById("demo").innerHTML = "Hello JavaScript!"'>Javascript</button>
-	<button type="button" onclick='document.getElementById("demo").innerHTML = "Hello JavaScript!"'>Jquery</button>
-	<button type="button" onclick='document.getElementById("demo").innerHTML = "Hello JavaScript!"'>Mes</button>
-	<button type="button" onclick='document.getElementById("demo").innerHTML = "Hello JavaScript!"'>php</button>
-	<button type="button" onclick='document.getElementById("demo").innerHTML = "Hello JavaScript!"'>Populares</button>
-	<button type="button" onclick='document.getElementById("demo").innerHTML = "Hello JavaScript!"'>Python</button>
-	<button type="button" onclick='document.getElementById("demo").innerHTML = "Hello JavaScript!"'>Semana</button>
+	<button id="mostrar_android">Android</button>
+	<button id="mostrar_activas">Activas</button>
+	<button id="mostrar_c_sharp">c#</button>
+	<button id="mostrar_destacadas">Destacadas</button>
+	<button id="mostrar_html">Html</button>
+	<button id="mostrar_java">Java</button>
+	<button id="mostrar_javascript">Javascript</button>
+	<button id="mostrar_jquery">Jquery</button>
+	<button id="mostrar_mes">Mes</button>
+	<button id="mostrar_php">php</button>
+	<button id="mostrar_populares">Populares</button>
+	<button id="mostrar_python">Python</button>
+	<button id="mostrar_semana">Semana</button>
 
 
 	<script>
-		var fileReader = new FileReader();
-		function getFile(inputFile) {
-			let file = inputFile.files[0];
-			fileReader.readAsText(file);
-		}
-		function readFile(evt) {
-			let parsed = csvJSON(evt.target.result);
-			return parsed;
-		}
-
+		
 		function csvJSON(csv){
 			var lines=csv.split("\n");
 			var result = [];
-			var headers=lines[0].split(",");
+			var headers=lines[0].split("--");
 			for(var i=1;i<lines.length;i++){
 				var obj = {};
-				var currentline=lines[i].split(",");
+				var currentline=lines[i].split("--");
 				for(var j=0;j<headers.length;j++){
 					obj[headers[j]] = currentline[j];
 				}
@@ -47,11 +39,55 @@
 			return JSON.stringify(result); //JSON
 		}
 
+		var mostrar_activas = document.getElementById('mostrar_activas')
+		mostrar_activas.addEventListener("click",function(){
+			csvJSON("/Procesado/activasvistas.txt")
 
+			var datos = {
+			labels : ["Enero", "Febrero", "Marzo", "Abril", "Mayo"],
+			datasets : [{
+				label : "datos 1",
+				backgroundColor : "rgba(220,220,220,0.5)",
+				data : [4, 12, 9, 7, 5]
+			},
+			{
+
+				label : "datos 2",
+				backgroundColor : "rgba(151,187,205,0.5)",
+				data : [10,7,-5,6,5]
+			},
+			{
+				label : "datos 3",
+				backgroundColor : "rgba(151,100,205,0.5)",
+				data : [9,6,15,6,17]
+			}
+			]
+		};
+/*		var datos = {
+			labels : ["Enero", "Febrero", "Marzo", "Abril", "Mayo"],
+			datasets : [{
+				label : "datos 1",
+				backgroundColor : "rgba(220,220,220,0.5)",
+				data : [4, 12, 9, 7, 5]
+			},
+			{
+
+				label : "datos 2",
+				backgroundColor : "rgba(151,187,205,0.5)",
+				data : [10,7,-5,6,5]
+			},
+			{
+				label : "datos 3",
+				backgroundColor : "rgba(151,100,205,0.5)",
+				data : [9,6,15,6,17]
+			}
+			]
+		};
+*/
 		var canvas = document.getElementById('chart').getContext('2d');
 		window.bar = new Chart(canvas, {
 			type : "bar",
-			data : csvJSON(),
+			data : ,
 			options : {
 				elements : {
 					rectangle : {
@@ -67,9 +103,15 @@
 				}
 			}
 		});
+	},false);
+
+
 
 	</script>
 </head>
 <body>
+	<div id="canvas-container" style="width:50%;">
+		<canvas id="chart" width="500" height="350"></canvas>
+	</div>
 </body>
 </html>	
