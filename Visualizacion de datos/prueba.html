@@ -6,11 +6,7 @@
 	<canvas height="300px" width="300px" id="micanvas">
 	Su navegador no soporta en elemento CANVAS</canvas>
 	<br>
-	<button id="mostrar_activas">Limpiar Canvas</button>
 	<div id="demo"></div>
-	<h3>Contenido del archivo:</h3>
-	<pre id="contenido-archivo"></pre>
-	<script type="text/javascript" src="activasrespuestas.json"></script>
 	<script>
 		/*var mydata = JSON.parse(data);
 		alert(mydata[0].pregunta);
@@ -24,7 +20,7 @@
 		}
 */
 
-		function processFiles(files) {
+/*		function processFiles(files) {
 			var file = files[0];
 			 
 			var reader = new FileReader();
@@ -57,22 +53,21 @@
 		readTextFile("activasrespuestas.json", function(text){
 		    var data = JSON.parse(text);
 		    document.getElementById("demo").innerHTML=data;
-		});
+		});*/
 
 
 
-		 var json = require('C:/Users/Fanny/Documents/6SEMESTRE/Lengujes de programacion/ProyectoFinal/LenguajesPFPruebas/Visualizacion de datos/activasrespuestas.json'); //with path
-		var readJson = (path, cb) => {
-			  fs.readFile(require.resolve(path), (err, data) => {
-			    if (err)
-			      cb(err)
-			    else
-			      cb(null, JSON.parse(data))
-			  })
-			}
-		document.getElementById("demo").innerHTML=readJson;
+		var xmlhttp = new XMLHttpRequest();
+		xmlhttp.onreadystatechange = function() {
+		    if (this.readyState == 4 && this.status == 200) {
+		        var myObj = JSON.parse(this.responseText);
+		        document.getElementById("demo").innerHTML = myObj.name;
+		    }
+		};
+		xmlhttp.open("GET", "activasrespuestas", true);
+		xmlhttp.send();
 
-		function leerArchivo(e) {
+/*		function leerArchivo(e) {
 		  var archivo = e.target.files[0];
 		  if (!archivo) {
 		    return;
@@ -110,7 +105,7 @@
 		var mostrar_activas = document.getElementById('mostrar_activas')
 		mostrar_activas.addEventListener("click",function(){
 			document.getElementById("demo").innerHTML=datos;
-	});
+	});*/
 
 	</script>
 </head>
