@@ -1,27 +1,115 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 	<title></title>
 	<canvas height="300px" width="300px" id="micanvas">
 	Su navegador no soporta en elemento CANVAS</canvas>
 	<br>
 	<button id="mostrar_activas">Limpiar Canvas</button>
-	<p id="demo"></p>
+	<div id="demo"></div>
+	<h3>Contenido del archivo:</h3>
+	<pre id="contenido-archivo"></pre>
+	<script type="text/javascript" src="activasrespuestas.json"></script>
 	<script>
-		var fileReader = new FileReader();
-		function getFile(inputFile) {
-			let file = inputFile.files[0];
-			fileReader.readAsText(file);
+		/*var mydata = JSON.parse(data);
+		alert(mydata[0].pregunta);
+		document.getElementById("demo").innerHTML=mydata[0].pregunta;
+
+		$(document).ready(function () { 
+			$.getJSON( "activasrespuestas.json", function( json ) { 
+				var datos = json.entradas;
+			}
+			document.getElementById("demo").innerHTML=datos;
 		}
-		function readFile(evt) {
-			let parsed = csvJSON(evt.target.result);
-			return parsed;
+*/
+
+		function processFiles(files) {
+			var file = files[0];
+			 
+			var reader = new FileReader();
+			 
+			reader.onload = function (e) {
+				// Cuando éste evento se dispara, los datos están ya disponibles.
+				// Se trata de copiarlos a una área <div> en la página.
+				var output = document.getElementById("fileOutput");
+				output.textContent = e.target.result;
+			};
+			reader.readAsText(file);
+		}
+		var json = $.getJSON("/activasrespuestas.json");
+		document.getElementById("demo").innerHTML=jsons;
+
+
+		function readTextFile(file, callback) {
+		    var rawFile = new XMLHttpRequest();
+		    rawFile.overrideMimeType("application/json");
+		    rawFile.open("GET", file, true);
+		    rawFile.onreadystatechange = function() {
+		        if (rawFile.readyState === 4 && rawFile.status == "200") {
+		            callback(rawFile.responseText);
+		        }
+		    }
+		    rawFile.send(null);
+		}
+
+		//usage:
+		readTextFile("activasrespuestas.json", function(text){
+		    var data = JSON.parse(text);
+		    document.getElementById("demo").innerHTML=data;
+		});
+
+
+
+		 var json = require('C:/Users/Fanny/Documents/6SEMESTRE/Lengujes de programacion/ProyectoFinal/LenguajesPFPruebas/Visualizacion de datos/activasrespuestas.json'); //with path
+		var readJson = (path, cb) => {
+			  fs.readFile(require.resolve(path), (err, data) => {
+			    if (err)
+			      cb(err)
+			    else
+			      cb(null, JSON.parse(data))
+			  })
+			}
+		document.getElementById("demo").innerHTML=readJson;
+
+		function leerArchivo(e) {
+		  var archivo = e.target.files[0];
+		  if (!archivo) {
+		    return;
+		  }
+		  var lector = new FileReader();
+		  lector.onload = function(e) {
+		    var contenido = e.target.result;
+		    mostrarContenido(contenido);
+		  };
+		  lector.readAsText(archivo);
+		}
+
+		function mostrarContenido(contenido) {
+		  var elemento = document.getElementById('contenido-archivo');
+		  elemento.innerHTML = contenido;
+		}
+	document.getElementById("demo").innerHTML=leerArchivo("activasrespuestas.json");
+		//document.getElementById('file-input').addEventListener('change', leerArchivo, false);
+
+		var text = leerArchivo("activasrespuestas.json");
+		var text2 = "";
+		var i;
+		obj = JSON.parse(text);
+		var vistas = [];
+		var preguntas=[];
+		var respuestas=[];
+		var votos=[];
+		for (i = 0; i < Object.keys(obj.entradas).length; i++) {
+		   vistas.push(obj.entradas[i].vistas);
+		   preguntas.push(obj.entradas[i].preguntas);
+		   respuestas.push(obj.entradas[i].respuestas);
+		   votos.push(obj.entradas[i].votos);
 		}
 
 		var mostrar_activas = document.getElementById('mostrar_activas')
 		mostrar_activas.addEventListener("click",function(){
-			//getFile("C:/Users/Fanny/Documents/6SEMESTRE/Lengujes de programacion/ProyectoFinal/LenguajesPFPruebas/Pre-Procesamiento/Procesado/activasrespuestas.json");
-			document.getElementById("demo").innerHTML=fileReader;
+			document.getElementById("demo").innerHTML=datos;
 	});
 
 	</script>

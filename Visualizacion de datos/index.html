@@ -22,22 +22,34 @@
 
 
 	<script>
-		
-		function csvJSON(csv){
-			var lines=csv.split("\n");
-			var result = [];
-			var headers=lines[0].split("--");
-			for(var i=1;i<lines.length;i++){
-				var obj = {};
-				var currentline=lines[i].split("--");
-				for(var j=0;j<headers.length;j++){
-					obj[headers[j]] = currentline[j];
-				}
-				result.push(obj);
-			}
-			//return result; //JavaScript object
-			return JSON.stringify(result); //JSON
+		function leerArchivo(e) {
+		  var archivo = e.target.files[0];
+		  if (!archivo) {
+		    return;
+		  }
+		  var lector = new FileReader();
+		  lector.onload = function(e) {
+		    var contenido = e.target.result;
+		    mostrarContenido(contenido);
+		  };
+		  lector.readAsText(archivo);
 		}
+
+		var text = leerArchivo("activasrespuestas.json");
+		var text2 = "";
+		var i;
+		obj = JSON.parse(text);
+		var vistas = [];
+		var preguntas=[];
+		var respuestas=[];
+		var votos=[];
+		for (i = 0; i < Object.keys(obj.entradas).length; i++) {
+		   vistas.push(obj.entradas[i].vistas);
+		   preguntas.push(obj.entradas[i].preguntas);
+		   respuestas.push(obj.entradas[i].respuestas);
+		   votos.push(obj.entradas[i].votos);
+		}
+
 
 		var mostrar_activas = document.getElementById('mostrar_activas')
 		mostrar_activas.addEventListener("click",function(){
@@ -50,19 +62,19 @@
 				backgroundColor : "rgba(220,220,220,0.5)",
 				data : [4, 12, 9, 7, 5]
 			},
-			{
-
-				label : "datos 2",
+			{	label : "datos 2",
 				backgroundColor : "rgba(151,187,205,0.5)",
 				data : [10,7,-5,6,5]
 			},
-			{
-				label : "datos 3",
+			{	label : "datos 3",
 				backgroundColor : "rgba(151,100,205,0.5)",
 				data : [9,6,15,6,17]
-			}
-			]
+			}]
 		};
+
+
+
+
 /*		var datos = {
 			labels : ["Enero", "Febrero", "Marzo", "Abril", "Mayo"],
 			datasets : [{
