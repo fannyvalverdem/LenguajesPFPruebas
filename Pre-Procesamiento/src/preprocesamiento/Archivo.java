@@ -9,7 +9,9 @@ package preprocesamiento;
 
 import java.util.ArrayList;
 import java.io.*;
-import java.util.Scanner;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.json.JSONException;
 
 public class Archivo {
     
@@ -36,17 +38,36 @@ public class Archivo {
     }
     
     // Método modificar contenido
-    public static void modificarContenido(ArrayList<Entrada> nombreArrayList, String nombreArchivo)throws FileNotFoundException, IOException {
+    public static void modificarContenido(ArrayList<Entrada> nombreArrayList, String nombreArchivo)throws FileNotFoundException, IOException, JSONException {
         eliminaArchivo(nombreArchivo);  // Uso de método eliminar archivo
         String cadena;
         File directorio = new File("Procesado");
         directorio.mkdir();
         try (FileWriter fichero = new FileWriter("Procesado/"+nombreArchivo)) {
             for (Entrada linea : nombreArrayList) {
-                cadena=linea.getPreguntas()+"--"+linea.getRespuestas()+"--"+linea.getVotos()+"--"+linea.getVistas();
-                fichero.write(cadena + "\r\n");
+                JSONObject obj = new JSONObject();
+		obj.put("pregunta", linea.getPreguntas());
+		obj.put("votos", linea.getVotos());
+                obj.put("respuestas", linea.getRespuestas());
+                obj.put("vistas", linea.getVistas());
+		JSONArray list=new JSONArray();
+                list.put(obj);
+                JSONObject f = new JSONObject();
+                f.put("entradas", list);
+		try{
+			
+			fichero.write(f.toString());
+			
+			
+			
+		}catch(Exception ex){
+			System.out.println("Error: "+ex.toString());
+		}
             }
+            fichero.flush();
+            fichero.close();
         }
+        
 
     }
     

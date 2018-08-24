@@ -5,8 +5,10 @@
  */
 package preprocesamiento;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import org.json.JSONException;
 
 
 /**
@@ -16,7 +18,7 @@ import java.util.ArrayList;
 public class ProcesamientoLenguajes{
     
     
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, FileNotFoundException, JSONException {
         String csv[]={"activas.csv","android.csv","c#.csv","destacadas.csv","html.csv"
         ,"java.csv","javascript.csv","jquery.csv","mes.csv","php.csv","popular.csv","python.csv"
         ,"semana.csv"};
