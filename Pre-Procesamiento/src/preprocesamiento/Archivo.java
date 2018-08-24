@@ -44,25 +44,26 @@ public class Archivo {
         File directorio = new File("Procesado");
         directorio.mkdir();
         try (FileWriter fichero = new FileWriter("Procesado/"+nombreArchivo)) {
+            JSONArray list=new JSONArray();
+            JSONObject f = new JSONObject();
             for (Entrada linea : nombreArrayList) {
                 JSONObject obj = new JSONObject();
 		obj.put("pregunta", linea.getPreguntas());
 		obj.put("votos", linea.getVotos());
                 obj.put("respuestas", linea.getRespuestas());
                 obj.put("vistas", linea.getVistas());
-		JSONArray list=new JSONArray();
+		
                 list.put(obj);
-                JSONObject f = new JSONObject();
-                f.put("entradas", list);
-		try{
-			
-			fichero.write(f.toString());
-			
-			
-			
-		}catch(Exception ex){
-			System.out.println("Error: "+ex.toString());
-		}
+            }
+            f.put("entradas", list);
+            try{
+
+                    fichero.write(f.toString());
+
+
+
+            }catch(Exception ex){
+                    System.out.println("Error: "+ex.toString());
             }
             fichero.flush();
             fichero.close();
