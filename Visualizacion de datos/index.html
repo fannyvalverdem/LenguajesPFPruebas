@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+
+	<p id="demo">JavaScript can change HTML content.</p>
+
+	<button type="button" onclick='document.getElementById("demo").src = '>Android</button>
+	<button type="button" onclick='document.getElementById("demo").innerHTML = "Hello JavaScript!"'>Activas</button>
+	<button type="button" onclick='document.getElementById("demo").innerHTML = "Hello JavaScript!"'>c#</button>
+	<button type="button" onclick='document.getElementById("demo").innerHTML = "Hello JavaScript!"'>Destacadas</button>
+	<button type="button" onclick='document.getElementById("demo").innerHTML = "Hello JavaScript!"'>Html</button>
+	<button type="button" onclick='document.getElementById("demo").innerHTML = "Hello JavaScript!"'>Java</button>
+	<button type="button" onclick='document.getElementById("demo").innerHTML = "Hello JavaScript!"'>Javascript</button>
+	<button type="button" onclick='document.getElementById("demo").innerHTML = "Hello JavaScript!"'>Jquery</button>
+	<button type="button" onclick='document.getElementById("demo").innerHTML = "Hello JavaScript!"'>Mes</button>
+	<button type="button" onclick='document.getElementById("demo").innerHTML = "Hello JavaScript!"'>php</button>
+	<button type="button" onclick='document.getElementById("demo").innerHTML = "Hello JavaScript!"'>Populares</button>
+	<button type="button" onclick='document.getElementById("demo").innerHTML = "Hello JavaScript!"'>Python</button>
+	<button type="button" onclick='document.getElementById("demo").innerHTML = "Hello JavaScript!"'>Semana</button>
+
+
+	<script>
+		var fileReader = new FileReader();
+		function getFile(inputFile) {
+			let file = inputFile.files[0];
+			fileReader.readAsText(file);
+		}
+		function readFile(evt) {
+			let parsed = csvJSON(evt.target.result);
+			return parsed;
+		}
+
+		function csvJSON(csv){
+			var lines=csv.split("\n");
+			var result = [];
+			var headers=lines[0].split(",");
+			for(var i=1;i<lines.length;i++){
+				var obj = {};
+				var currentline=lines[i].split(",");
+				for(var j=0;j<headers.length;j++){
+					obj[headers[j]] = currentline[j];
+				}
+				result.push(obj);
+			}
+			//return result; //JavaScript object
+			return JSON.stringify(result); //JSON
+		}
+
+
+		var canvas = document.getElementById('chart').getContext('2d');
+		window.bar = new Chart(canvas, {
+			type : "bar",
+			data : csvJSON(),
+			options : {
+				elements : {
+					rectangle : {
+						borderWidth : 1,
+						borderColor : "rgb(0,255,0)",
+						borderSkipped : 'bottom'
+					}
+				},
+				responsive : true,
+				title : {
+					display : true,
+					text : "Prueba de grafico de barras"
+				}
+			}
+		});
+
+	</script>
+</head>
+<body>
+</body>
+</html>	
