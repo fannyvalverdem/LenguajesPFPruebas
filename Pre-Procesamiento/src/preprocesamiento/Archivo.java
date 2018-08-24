@@ -44,7 +44,6 @@ public class Archivo {
         File directorio = new File("Procesado");
         directorio.mkdir();
         try (FileWriter fichero = new FileWriter("Procesado/"+nombreArchivo)) {
-            fichero.write("preguntas--respuestas--votos--vistas" + "\r\n");
             for (Entrada linea : nombreArrayList) {
                 JSONObject obj = new JSONObject();
 		obj.put("pregunta", linea.getPreguntas());
