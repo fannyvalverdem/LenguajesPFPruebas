@@ -6,8 +6,9 @@
 	<script type="text/javascript" src="dist/Chart.bundle.min.js"></script>
 	<p id="demo">JavaScript can change HTML content.</p>
 
-	<button id="mostrar_android">Android</button>
 	<button id="mostrar_activas">Activas</button>
+	
+	<!--button id="mostrar_android">Android</button>
 	<button id="mostrar_c_sharp">c#</button>
 	<button id="mostrar_destacadas">Destacadas</button>
 	<button id="mostrar_html">Html</button>
@@ -18,64 +19,16 @@
 	<button id="mostrar_php">php</button>
 	<button id="mostrar_populares">Populares</button>
 	<button id="mostrar_python">Python</button>
-	<button id="mostrar_semana">Semana</button>
+	<button id="mostrar_semana">Semana</button-->
 
 
-	<script>
-		function leerArchivo(e) {
-		  var archivo = e.target.files[0];
-		  if (!archivo) {
-		    return;
-		  }
-		  var lector = new FileReader();
-		  lector.onload = function(e) {
-		    var contenido = e.target.result;
-		    mostrarContenido(contenido);
-		  };
-		  lector.readAsText(archivo);
-		}
 
-		var text = leerArchivo("activasrespuestas.json");
-		var text2 = "";
-		var i;
-		obj = JSON.parse(text);
-		var vistas = [];
-		var preguntas=[];
-		var respuestas=[];
-		var votos=[];
-		for (i = 0; i < Object.keys(obj.entradas).length; i++) {
-		   vistas.push(obj.entradas[i].vistas);
-		   preguntas.push(obj.entradas[i].preguntas);
-		   respuestas.push(obj.entradas[i].respuestas);
-		   votos.push(obj.entradas[i].votos);
-		}
-
-
+	<script>/*
+		
 		var mostrar_activas = document.getElementById('mostrar_activas')
 		mostrar_activas.addEventListener("click",function(){
-			csvJSON("/Procesado/activasvistas.txt")
 
-			var datos = {
-			labels : ["Enero", "Febrero", "Marzo", "Abril", "Mayo"],
-			datasets : [{
-				label : "datos 1",
-				backgroundColor : "rgba(220,220,220,0.5)",
-				data : [4, 12, 9, 7, 5]
-			},
-			{	label : "datos 2",
-				backgroundColor : "rgba(151,187,205,0.5)",
-				data : [10,7,-5,6,5]
-			},
-			{	label : "datos 3",
-				backgroundColor : "rgba(151,100,205,0.5)",
-				data : [9,6,15,6,17]
-			}]
-		};
-
-
-
-
-/*		var datos = {
+		var datos = {
 			labels : ["Enero", "Febrero", "Marzo", "Abril", "Mayo"],
 			datasets : [{
 				label : "datos 1",
@@ -88,18 +41,18 @@
 				backgroundColor : "rgba(151,187,205,0.5)",
 				data : [10,7,-5,6,5]
 			},
-			{
+			{	
 				label : "datos 3",
 				backgroundColor : "rgba(151,100,205,0.5)",
 				data : [9,6,15,6,17]
-			}
-			]
+			}]
 		};
-*/
+		console.log(datos);
+
 		var canvas = document.getElementById('chart').getContext('2d');
 		window.bar = new Chart(canvas, {
 			type : "bar",
-			data : ,
+			data : datos,
 			options : {
 				elements : {
 					rectangle : {
@@ -115,9 +68,90 @@
 				}
 			}
 		});
-	},false);
+		},false);
+	*/</script>
+	<script>
+		var mostrar_activas = document.getElementById('mostrar_activas')
+		mostrar_activas.addEventListener("click",function(){
+			var datos = {};
+			console.log("datos");
+			var jsonData = [];
+			var xmlhttp = new XMLHttpRequest();
+			xmlhttp.onreadystatechange = function() {
+			    if (this.readyState == 4 && this.status == 200) {
+			        var myObj = JSON.parse(this.responseText);
+			        console.log(myObj);
+			        var item = {};
+			        var _labels = [];
+			        
+			        var data_respuestas = [];
+			        var data_votos = [];
+			        var data_vistas = [];
+			        /*item ["title"] = id;
+			        item ["email"] = email;*/
 
+			        //jsonObj.push(item);
+			        for(i = 0; i < 10; i++){
+			        	var pregunta = myObj.entradas[i].pregunta;
+			        	var respuesta = myObj.entradas[i].respuestas;
+			        	var voto = myObj.entradas[i].votos;
+			        	var vista = myObj.entradas[i].vistas;
+			        	data_respuestas.push(respuesta);
+			        	data_vistas.push(vista);
+			        	data_votos.push(voto);
+			        	_labels.push(pregunta);
 
+			        	
+			        }
+			        var _datasets = [{
+							label : "Respuestas",
+							backgroundColor : "rgba(220,220,220,0.5)",
+							data : data_respuestas
+						},
+						{
+
+							label : "Vistas",
+							backgroundColor : "rgba(151,187,205,0.5)",
+							data : data_vistas
+						},
+						{
+							label : "Votos",
+							backgroundColor : "rgba(151,100,205,0.5)",
+							data : data_votos
+						}]
+					datos = {
+						labels : _labels,
+						datasets : _datasets,
+					}
+					console.log(datos);
+					var canvas = document.getElementById('chart').getContext('2d');
+				window.bar = new Chart(canvas, {
+						type : "bar",
+						data : datos,
+						options : {
+							elements : {
+								rectangle : {
+									borderWidth : 1,
+									borderColor : "rgb(0,255,0)",
+									borderSkipped : 'bottom'
+								}
+							},
+							responsive : true,
+							title : {
+								display : true,
+								text : "Prueba de grafico de barras"
+							}
+						}
+					});
+			        
+			        
+			    }
+			    
+				};
+			xmlhttp.open("GET", "activasrespuestas.json", true);
+			xmlhttp.send();
+			
+		},false);
 
 	</script>
 </head>
