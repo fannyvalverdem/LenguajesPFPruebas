@@ -22,12 +22,16 @@ public class ProcesamientoLenguajes{
         String csv[]={"activas.csv","android.csv","c#.csv","destacadas.csv","html.csv"
         ,"java.csv","javascript.csv","jquery.csv","mes.csv","php.csv","popular.csv","python.csv"
         ,"semana.csv"};
+        String csv2[]={"activas.csv","android.csv","c#.csv","destacadas.csv","html.csv"
+        ,"java.csv","javascript.csv","jquery.csv","mes.csv","php.csv","popular.csv","python.csv"
+        ,"semana.csv"};
         
         for(String archivo: csv){
             ArrayList lec=Archivo.muestraContenido(archivo);
             
             String nombre=archivo.split(".csv")[0];
             //System.out.println(nombre);
+            //Scraping/Shangai/Anios
             
             ArrayList<Entrada> tags=Archivo.separartag(lec, nombre);
             Procesar p=new Procesar();
